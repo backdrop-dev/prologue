@@ -1,0 +1,8 @@
+/*
+ * Quote block. Loads only on pages that use it.
+ */
+
+.wp-block-quote {
+	border-left: 4px solid var(--wp--preset--color--primary);
+	padding-left: var(--wp--preset--spacing--40);
+}
