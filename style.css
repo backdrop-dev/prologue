@@ -1,0 +1,21 @@
+/*!
+ * Theme Name:        Prologue
+ * Theme URI:         https://github.com/backdrop-dev/prologue
+ * Description:       A clean block starter theme for WordPress, built on Backdrop 2. Copy it, rename it, and make it your own.
+ * Version:           1.0.0
+ * Author:            Benjamin Lu
+ * Author URI:        https://github.com/techkodeninja
+ * Tags:              block-patterns, block-styles, full-site-editing, style-variations, wide-blocks
+ * Text Domain:       prologue
+ * Requires at least: 6.6
+ * Tested up to:      7.1
+ * Requires PHP:      7.4
+ * License:           GNU General Public License v3.0 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
+ */
+
+/*
+ * Block themes are styled through `theme.json`. Global CSS that `theme.json`
+ * can't express lives in `public/css/style.css`, and CSS for a single block
+ * lives in `public/css/blocks/`, where it only loads when the block is used.
+ */

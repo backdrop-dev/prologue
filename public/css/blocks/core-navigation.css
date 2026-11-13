@@ -1,0 +1,13 @@
+/*
+ * Navigation block. Loads only on pages that use it.
+ */
+
+.wp-block-navigation a:where(:not(.wp-element-button)) {
+	text-decoration: none;
+}
+
+.wp-block-navigation a:where(:not(.wp-element-button)):hover,
+.wp-block-navigation .current-menu-item > a {
+	text-decoration: underline;
+	text-underline-offset: 0.25em;
+}

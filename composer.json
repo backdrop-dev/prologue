@@ -1,0 +1,29 @@
+{
+	"name": "backdrop-dev/prologue",
+	"description": "A clean block starter theme for WordPress, built on Backdrop 2.",
+	"type": "wordpress-theme",
+	"keywords": [ "wordpress", "block-theme", "starter-theme", "backdrop" ],
+	"homepage": "https://github.com/backdrop-dev/prologue",
+	"license": "GPL-3.0-or-later",
+	"authors": [
+		{
+			"name": "Benjamin Lu",
+			"homepage": "https://github.com/techkodeninja"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Prologue\\": "app/"
+		}
+	},
+	"require": {
+		"php": ">=7.4",
+		"backdrop-dev/framework": "^2.0"
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"platform": {
+			"php": "7.4"
+		}
+	}
+}

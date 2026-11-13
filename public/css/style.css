@@ -1,0 +1,23 @@
+/*
+ * Global styles that theme.json can't express. Loaded on the front end and
+ * in the editor.
+ */
+
+/* Keep the footer at the bottom on short pages. */
+.wp-site-blocks {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.wp-site-blocks > main {
+	flex: 1 0 auto;
+	padding-top: var(--wp--preset--spacing--50);
+	padding-bottom: var(--wp--preset--spacing--60);
+}
+
+/* A visible focus outline for keyboard users. */
+:where(a, button, input, select, textarea, .wp-element-button):focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
