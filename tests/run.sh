@@ -82,6 +82,12 @@ expect single 'prologue-core-quote' 'single: quote block stylesheet loads with t
 expect single 'prologue-core-post-comments-form' 'single: comment form stylesheet loads'
 expect single 'prologue-core-comments' 'single: comments stylesheet loads'
 expect single 'class="wp-block-group prologue-comment ' 'single: comments use the avatar layout'
+expect single '<span class="prologue-author-label">Author</span>' 'single: post author comment has the Author label'
+if [ "$(grep -o 'prologue-author-label">Author' "$OUT/single.html" | wc -l)" -eq 1 ]; then
+	pass 'single: only the post author comment has the Author label'
+else
+	fail 'single: only the post author comment has the Author label'
+fi
 
 fetch page /patterns/ 200
 expect page 'A fresh start for your next site' 'page: hero pattern'
