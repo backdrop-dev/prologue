@@ -86,6 +86,23 @@ wp_insert_post( [
 	'post_status'  => 'publish',
 ] );
 
+// A page with comments turned on, and one comment.
+$guestbook_id = wp_insert_post( [
+	'post_type'      => 'page',
+	'post_title'     => 'Guestbook',
+	'post_name'      => 'guestbook',
+	'post_content'   => "<!-- wp:paragraph -->\n<p>Sign the guestbook.</p>\n<!-- /wp:paragraph -->",
+	'post_status'    => 'publish',
+	'comment_status' => 'open',
+] );
+
+wp_insert_comment( [
+	'comment_post_ID'  => $guestbook_id,
+	'comment_author'   => 'Visitor',
+	'comment_content'  => 'Guestbook comment.',
+	'comment_approved' => 1,
+] );
+
 // Save the rewrite rules for the new permalink structure.
 flush_rewrite_rules();
 

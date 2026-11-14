@@ -106,6 +106,16 @@ else
 	pass 'page: quote stylesheet only loads where it is used'
 fi
 
+if grep -qF '<div class="wp-block-comments' "$OUT/page.html" || grep -qF 'id="respond"' "$OUT/page.html"; then
+	fail 'page: no comments section when comments are off'
+else
+	pass 'page: no comments section when comments are off'
+fi
+
+fetch guestbook /guestbook/ 200
+expect guestbook 'Guestbook comment.' 'page with comments on: shows its comments'
+expect guestbook 'id="respond"' 'page with comments on: shows the comment form'
+
 fetch archive /category/uncategorized/ 200
 expect archive 'wp-block-query-title' 'archive: archive title'
 expect archive 'Test Post' 'archive: lists the test post'
