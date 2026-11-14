@@ -64,6 +64,43 @@ pre {
 }
 
 /*
+ * Images aligned in the classic editor. WordPress aligns blocks and
+ * captions through the layout, but only when they're direct children of
+ * the content. A classic image sits inside a paragraph, so it needs its
+ * own rules. Block images put the alignment on their figure, not the img,
+ * so these don't affect them.
+ */
+img.alignleft {
+	float: left;
+	margin: 0.25em 1.5em 1em 0;
+}
+
+img.alignright {
+	float: right;
+	margin: 0.25em 0 1em 1.5em;
+}
+
+img.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Floated images and captions take at most half the width, so text beside them stays readable on phones. */
+img:is(.alignleft, .alignright),
+.wp-caption:is(.alignleft, .alignright) {
+	height: auto;
+	max-width: 50%;
+}
+
+/* Floated images at the end of a post stay inside it. */
+.wp-block-post-content::after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+/*
  * A Search block given a fixed width still fits on small screens. `:where()`
  * keeps the content width from the layout for Search blocks that aren't
  * floated.
