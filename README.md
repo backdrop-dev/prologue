@@ -39,7 +39,7 @@ Then update the author, URIs and version in `style.css`, and run `composer dump-
 ```
 app/                  PHP, organized as Backdrop service providers
   Assets/             Loads the global stylesheet and per-block stylesheets
-  Blocks/             Registers block styles and highlights sticky posts
+  Blocks/             Block styles, sticky posts and page links for split posts
   Patterns/           Registers pattern categories
 parts/                Header and footer template parts
 patterns/             Block patterns (registered automatically by WordPress)
@@ -63,6 +63,10 @@ Add a file to `public/css/blocks/` named after the block, with the slash replace
 
 On the first page of the blog, WordPress lists sticky posts first and adds the `sticky` class to them. Prologue styles them as a highlighted card in `public/css/blocks/core-post-template.css`, and `app/Blocks/StickyPosts.php` adds a translatable **Featured** label above the title. Change the label with the `prologue/sticky-label` filter, or return an empty string to remove it.
 
+### Split posts
+
+When a post is split into pages with the Page Break block, `app/Blocks/PageLinks.php` adds "Pages: 1 2 3" links after its content. Block themes don't get these links from WordPress.
+
 ### Patterns
 
 Files in `patterns/` are registered by WordPress. Patterns with `Inserter: no` (`posts`, `comments`, `search-form`, `404`) are used by the templates and keep their text translatable.
@@ -81,7 +85,18 @@ tests/setup.sh /tmp/prologue-site
 tests/run.sh /tmp/prologue-site
 ```
 
-Set `WP_VERSION` to test another version, for example `WP_VERSION=6.6`. These tests run on every pull request, along with a PHP syntax check on PHP 7.4 to 8.5.
+Set `WP_VERSION` to test another version, for example `WP_VERSION=6.6`.
+
+To test against WordPress's [Theme Test Data](https://github.com/WordPress/theme-test-data), import it into the same site and crawl every page:
+
+```bash
+tests/import-test-data.sh /tmp/prologue-site
+tests/crawl.sh /tmp/prologue-site
+```
+
+The import adds about 120 posts and 24 pages full of edge cases: long titles and words, nested comments, split and password-protected posts, classic and block content. The crawl requests every post, page and archive (about 340 pages) and checks each returns the right status with its header and footer, no unrendered blocks and no PHP errors.
+
+All of these run on every pull request, along with a PHP syntax check on PHP 7.4 to 8.5.
 
 ## License
 

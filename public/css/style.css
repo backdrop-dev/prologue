@@ -21,3 +21,63 @@
 	outline: 2px solid currentColor;
 	outline-offset: 2px;
 }
+
+/* Long words and URLs wrap instead of widening the page. */
+.wp-site-blocks {
+	overflow-wrap: break-word;
+}
+
+/* Preformatted text keeps its line breaks and scrolls inside its box. */
+pre {
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+/*
+ * Content from the classic editor: captions get a fixed width from an
+ * inline style, which mustn't be wider than the screen.
+ */
+.wp-caption {
+	max-width: 100%;
+}
+
+.wp-caption img {
+	height: auto;
+	max-width: 100%;
+}
+
+.wp-caption-text {
+	color: var(--wp--preset--color--subtle);
+	font-size: var(--wp--preset--font-size--small);
+	margin-top: 0.5em;
+}
+
+/* A Search block given a fixed width still fits on small screens. */
+.wp-block-search,
+.wp-block-search__inside-wrapper {
+	max-width: 100%;
+}
+
+/* Links to the other pages of a post split with the Page Break block. */
+.prologue-page-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: var(--wp--preset--spacing--50);
+}
+
+.prologue-page-links__label {
+	font-weight: 700;
+}
+
+.prologue-page-links .post-page-numbers.current {
+	font-weight: 700;
+}
+
+/* The form shown in place of a password-protected post's content. */
+.post-password-form input[type="password"] {
+	border: 1px solid var(--wp--preset--color--subtle);
+	border-radius: 0.375rem;
+	font: inherit;
+	padding: 0.5rem 0.75rem;
+}

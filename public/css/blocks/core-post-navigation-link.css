@@ -1,0 +1,9 @@
+/*
+ * Previous and next post links. Loads only on pages that use them.
+ */
+
+/* A neighbor's title with a very long word wraps instead of widening the row. */
+.wp-block-post-navigation-link {
+	max-width: 100%;
+	overflow-wrap: anywhere;
+}
