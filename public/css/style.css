@@ -120,3 +120,8 @@ input[type="checkbox"],
 input[type="radio"] {
 	accent-color: var(--wp--preset--color--primary);
 }
+
+/* Keep a post's date close to its title, in lists and on the post itself. */
+.wp-block-post-title + .wp-block-post-date {
+	margin-block-start: 0.125rem;
+}
