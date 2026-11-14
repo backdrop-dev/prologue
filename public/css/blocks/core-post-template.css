@@ -1,0 +1,25 @@
+/*
+ * Post Template block (the posts in a list). Loads only on pages that use it.
+ */
+
+/*
+ * Sticky posts. WordPress adds the `sticky` class to them on the first page
+ * of the blog, and lists them first.
+ */
+.wp-block-post-template .wp-block-post.sticky {
+	background-color: var(--wp--preset--color--muted);
+	border-left: 4px solid var(--wp--preset--color--primary);
+	border-radius: 0.5rem;
+	margin-bottom: var(--wp--preset--spacing--50);
+	padding: var(--wp--preset--spacing--50);
+}
+
+/* The "Featured" label added above a sticky post's title. */
+.prologue-sticky-label {
+	color: var(--wp--preset--color--primary);
+	font-size: var(--wp--preset--font-size--small);
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	margin: 0 0 0.25rem;
+	text-transform: uppercase;
+}

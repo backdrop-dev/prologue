@@ -40,6 +40,18 @@ if ( $errors ) {
 	exit( 1 );
 }
 
+// A sticky post, published first so it's the oldest. It should still be
+// listed first on the blog, and highlighted.
+$sticky_id = wp_insert_post( [
+	'post_title'   => 'Featured Post',
+	'post_name'    => 'featured-post',
+	'post_content' => "<!-- wp:paragraph -->\n<p>Sticky body.</p>\n<!-- /wp:paragraph -->",
+	'post_status'  => 'publish',
+	'post_date'    => '2020-01-01 00:00:00',
+] );
+
+stick_post( $sticky_id );
+
 // A post with a comment, for the single template and the comments pattern.
 $post_id = wp_insert_post( [
 	'post_title'   => 'Test Post',

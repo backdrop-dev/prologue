@@ -39,7 +39,7 @@ Then update the author, URIs and version in `style.css`, and run `composer dump-
 ```
 app/                  PHP, organized as Backdrop service providers
   Assets/             Loads the global stylesheet and per-block stylesheets
-  Blocks/             Registers block styles
+  Blocks/             Registers block styles and highlights sticky posts
   Patterns/           Registers pattern categories
 parts/                Header and footer template parts
 patterns/             Block patterns (registered automatically by WordPress)
@@ -58,6 +58,10 @@ Block styles are the extra options in a block's **Styles** panel. Prologue adds 
 ### Per-block CSS
 
 Add a file to `public/css/blocks/` named after the block, with the slash replaced by a dash. For example, `core-quote.css` styles the Quote block. It loads only on pages that use that block, in both the front end and the editor.
+
+### Sticky posts
+
+On the first page of the blog, WordPress lists sticky posts first and adds the `sticky` class to them. Prologue styles them as a highlighted card in `public/css/blocks/core-post-template.css`, and `app/Blocks/StickyPosts.php` adds a translatable **Featured** label above the title. Change the label with the `prologue/sticky-label` filter, or return an empty string to remove it.
 
 ### Patterns
 

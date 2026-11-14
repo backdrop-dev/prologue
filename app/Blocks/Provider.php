@@ -14,23 +14,25 @@ namespace Prologue\Blocks;
 use Backdrop\Core\ServiceProvider;
 
 /**
- * Binds and boots the block styles component.
+ * Binds and boots the block components: block styles and sticky posts.
  */
 class Provider extends ServiceProvider {
 
 	/**
-	 * Registers the component as a single shared instance.
+	 * Registers each component as a single shared instance.
 	 */
 	public function register(): void {
 
 		$this->app->singleton( BlockStyles::class );
+		$this->app->singleton( StickyPosts::class );
 	}
 
 	/**
-	 * Boots the component, which adds its WordPress hooks.
+	 * Boots each component, which adds its WordPress hooks.
 	 */
 	public function boot(): void {
 
 		$this->app->resolve( BlockStyles::class )->boot();
+		$this->app->resolve( StickyPosts::class )->boot();
 	}
 }
