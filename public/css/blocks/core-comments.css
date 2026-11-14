@@ -1,0 +1,82 @@
+/*
+ * Comments section: the list of comments above the comment form. Loads only
+ * on pages that use it. The form is styled in `core-post-comments-form.css`.
+ */
+
+/* Separate the comments from the post. */
+.wp-block-comments {
+	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--subtle) 30%, transparent);
+	margin-top: var(--wp--preset--spacing--60);
+	padding-top: var(--wp--preset--spacing--50);
+}
+
+.wp-block-comments-title {
+	margin-bottom: var(--wp--preset--spacing--30);
+}
+
+/* Each comment: avatar beside the name, date, text and reply link. */
+.wp-block-comment-template .prologue-comment {
+	border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--subtle) 20%, transparent);
+	gap: 1rem;
+	padding-bottom: var(--wp--preset--spacing--40);
+	padding-top: var(--wp--preset--spacing--40);
+}
+
+.wp-block-comment-template .prologue-comment__body {
+	flex: 1;
+	min-width: 0;
+}
+
+.wp-block-comment-template .prologue-comment__body > * {
+	margin-block: 0;
+}
+
+.wp-block-comment-template .prologue-comment__body > * + * {
+	margin-block-start: 0.5rem;
+}
+
+.wp-block-comment-template .prologue-comment__body > .is-layout-flex {
+	gap: 0.25rem 1rem;
+}
+
+.wp-block-comment-template .wp-block-comment-content > :first-child {
+	margin-top: 0;
+}
+
+.wp-block-comment-template .wp-block-comment-content > :last-child {
+	margin-bottom: 0;
+}
+
+.wp-block-comment-template .prologue-comment .wp-block-avatar {
+	flex-shrink: 0;
+}
+
+.wp-block-comment-template .prologue-comment .wp-block-avatar img {
+	background-color: var(--wp--preset--color--muted);
+	border-radius: 50%;
+	display: block;
+}
+
+/* Comments by the post's author get a ring around their avatar. */
+.wp-block-comment-template .bypostauthor > .prologue-comment .wp-block-avatar img {
+	outline: 2px solid var(--wp--preset--color--primary);
+	outline-offset: 2px;
+}
+
+/* Replies are indented with a line, less so on small screens. */
+.wp-block-comment-template li > ol {
+	border-left: 2px solid color-mix(in srgb, var(--wp--preset--color--subtle) 20%, transparent);
+	margin-left: 1.25rem;
+	padding-left: 1rem;
+}
+
+@media (min-width: 600px) {
+	.wp-block-comment-template li > ol {
+		padding-left: 2rem;
+	}
+}
+
+/* The form follows the list with some room. */
+.wp-block-comments .wp-block-post-comments-form {
+	margin-top: var(--wp--preset--spacing--50);
+}

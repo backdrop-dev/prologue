@@ -12,8 +12,11 @@
 <div class="wp-block-comments"><!-- wp:comments-title /-->
 
 <!-- wp:comment-template -->
-<!-- wp:group {"style":{"spacing":{"padding":{"bottom":"var:preset|spacing|40"}}},"layout":{"type":"default"}} -->
-<div class="wp-block-group" style="padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<!-- wp:group {"className":"prologue-comment","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"top"}} -->
+<div class="wp-block-group prologue-comment"><!-- wp:avatar {"size":40} /-->
+
+<!-- wp:group {"className":"prologue-comment__body","layout":{"type":"default"}} -->
+<div class="wp-block-group prologue-comment__body"><!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
 <div class="wp-block-group"><!-- wp:comment-author-name /-->
 
 <!-- wp:comment-date /--></div>
@@ -22,6 +25,7 @@
 <!-- wp:comment-content /-->
 
 <!-- wp:comment-reply-link /--></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- /wp:comment-template -->
 

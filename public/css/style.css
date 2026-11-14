@@ -27,6 +27,17 @@
 	overflow-wrap: break-word;
 }
 
+/*
+ * Quotes from the classic editor and in comments, styled like the Quote
+ * block (see `public/css/blocks/core-quote.css`).
+ */
+:where(blockquote:not(.wp-block-quote):not(.wp-block-pullquote blockquote)) {
+	border-left: 4px solid var(--wp--preset--color--primary);
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: var(--wp--preset--spacing--40);
+}
+
 /* Preformatted text keeps its line breaks and scrolls inside its box. */
 pre {
 	max-width: 100%;
