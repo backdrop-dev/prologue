@@ -79,6 +79,7 @@ expect single 'Post body.' 'single: post content'
 expect single 'wp-block-comments' 'single: comments pattern'
 expect single 'Test comment.' 'single: shows the comment'
 expect single 'prologue-core-quote' 'single: quote block stylesheet loads with the quote'
+expect single 'prologue-core-post-comments-form' 'single: comment form stylesheet loads'
 
 fetch page /patterns/ 200
 expect page 'A fresh start for your next site' 'page: hero pattern'

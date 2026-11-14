@@ -63,6 +63,10 @@ Add a file to `public/css/blocks/` named after the block, with the slash replace
 
 On the first page of the blog, WordPress lists sticky posts first and adds the `sticky` class to them. Prologue styles them as a highlighted card in `public/css/blocks/core-post-template.css`, and `app/Blocks/StickyPosts.php` adds a translatable **Featured** label above the title. Change the label with the `prologue/sticky-label` filter, or return an empty string to remove it.
 
+### Forms
+
+Text fields, text areas and selects share one look in `public/css/style.css`, using the palette so they follow the style variation. That covers the comment form, the Search block, the password form on protected posts, and forms from plugins. The comment form's layout (name and email side by side on wider screens, the consent checkbox, notes and labels) is in `public/css/blocks/core-post-comments-form.css`.
+
 ### Split posts
 
 When a post is split into pages with the Page Break block, `app/Blocks/PageLinks.php` adds "Pages: 1 2 3" links after its content. Block themes don't get these links from WordPress.
