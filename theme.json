@@ -55,9 +55,9 @@
 		"spacing": {
 			"blockGap": "1.5rem",
 			"padding": {
-				"top": "0",
+				"top": "0px",
 				"right": "var:preset|spacing|50",
-				"bottom": "0",
+				"bottom": "0px",
 				"left": "var:preset|spacing|50"
 			}
 		},
