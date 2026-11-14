@@ -123,5 +123,5 @@ input[type="radio"] {
 
 /* Keep a post's date close to its title, in lists and on the post itself. */
 .wp-block-post-title + .wp-block-post-date {
-	margin-block-start: 0.5rem;
+	margin-block-start: 0.125rem;
 }
