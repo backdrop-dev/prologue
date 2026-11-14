@@ -69,7 +69,7 @@ Text fields, text areas and selects share one look in `public/css/style.css`, us
 
 ### Comments
 
-The comments list (`patterns/comments.php`) shows each commenter's avatar beside their name, date, comment and reply link. `public/css/blocks/core-comments.css` separates the section from the post, divides comments with thin lines, indents replies with a line on the left, and rings the avatar on comments by the post's author.
+The comments list (`patterns/comments.php`) shows each commenter's avatar beside their name, date, comment and reply link. `public/css/blocks/core-comments.css` separates the section from the post, divides comments with thin lines, indents replies with a line on the left. Comments by the post's author stand out with a tinted card, a ring around the avatar and an **Author** label after the name, added by `app/Blocks/AuthorComments.php`. Change the label with the `prologue/comment-author-label` filter, or return an empty string to remove it.
 
 ### Split posts
 

@@ -55,6 +55,7 @@ stick_post( $sticky_id );
 // A post with a comment, for the single template and the comments pattern.
 $post_id = wp_insert_post( [
 	'post_title'   => 'Test Post',
+	'post_author'  => 1,
 	'post_name'    => 'test-post',
 	'post_content' => "<!-- wp:paragraph -->\n<p>Post body.</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:quote -->\n<blockquote class=\"wp-block-quote\"><!-- wp:paragraph -->\n<p>A quote.</p>\n<!-- /wp:paragraph --></blockquote>\n<!-- /wp:quote -->",
 	'post_status'  => 'publish',
@@ -65,6 +66,15 @@ wp_insert_comment( [
 	'comment_author'   => 'Commenter',
 	'comment_content'  => 'Test comment.',
 	'comment_approved' => 1,
+] );
+
+// A reply from the post's author, which should stand out.
+wp_insert_comment( [
+	'comment_post_ID'  => $post_id,
+	'comment_author'   => 'admin',
+	'comment_content'  => 'Author reply.',
+	'comment_approved' => 1,
+	'user_id'          => 1,
 ] );
 
 // A page that uses the theme's patterns and block styles.

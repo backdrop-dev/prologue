@@ -57,10 +57,39 @@
 	display: block;
 }
 
-/* Comments by the post's author get a ring around their avatar. */
+/*
+ * Comments by the post's author stand out: a tinted card with a primary
+ * line on the left, a ring around the avatar, and the "Author" label added
+ * by `app/Blocks/AuthorComments.php`.
+ */
+.wp-block-comment-template .bypostauthor > .prologue-comment {
+	background-color: color-mix(in srgb, var(--wp--preset--color--primary) 8%, var(--wp--preset--color--base));
+	border-bottom-color: transparent;
+	border-left: 4px solid var(--wp--preset--color--primary);
+	border-radius: 0.5rem;
+	margin-block: 0.5rem;
+	padding-left: var(--wp--preset--spacing--40);
+	padding-right: var(--wp--preset--spacing--40);
+}
+
 .wp-block-comment-template .bypostauthor > .prologue-comment .wp-block-avatar img {
 	outline: 2px solid var(--wp--preset--color--primary);
 	outline-offset: 2px;
+}
+
+.prologue-author-label {
+	background-color: var(--wp--preset--color--primary);
+	border-radius: 999px;
+	color: var(--wp--preset--color--base);
+	display: inline-block;
+	font-size: 0.75rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1;
+	margin-left: 0.5rem;
+	padding: 0.3em 0.6em;
+	text-transform: uppercase;
+	vertical-align: 0.15em;
 }
 
 /* Replies are indented with a line, less so on small screens. */
