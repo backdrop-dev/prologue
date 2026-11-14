@@ -52,9 +52,12 @@ pre {
 	margin-top: 0.5em;
 }
 
-/* A Search block given a fixed width still fits on small screens. */
-.wp-block-search,
-.wp-block-search__inside-wrapper {
+/*
+ * A Search block given a fixed width still fits on small screens. `:where()`
+ * keeps the content width from the layout for Search blocks that aren't
+ * floated.
+ */
+:where(.wp-block-search, .wp-block-search__inside-wrapper) {
 	max-width: 100%;
 }
 
@@ -74,10 +77,35 @@ pre {
 	font-weight: 700;
 }
 
-/* The form shown in place of a password-protected post's content. */
-.post-password-form input[type="password"] {
+/*
+ * Form fields: the comment form, search, the password form on protected
+ * posts, and forms from plugins. The comment form selector is needed to
+ * override WordPress's own comment form styles.
+ */
+input:is([type="text"], [type="email"], [type="url"], [type="password"], [type="search"], [type="number"], [type="tel"]),
+textarea,
+select,
+.wp-block-post-comments-form :is(input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]), textarea) {
+	background-color: var(--wp--preset--color--base);
 	border: 1px solid var(--wp--preset--color--subtle);
 	border-radius: 0.375rem;
+	box-sizing: border-box;
+	color: var(--wp--preset--color--contrast);
 	font: inherit;
-	padding: 0.5rem 0.75rem;
+	max-width: 100%;
+	padding: 0.625rem 0.75rem;
+}
+
+input:is([type="text"], [type="email"], [type="url"], [type="password"], [type="search"], [type="number"], [type="tel"]):focus,
+textarea:focus,
+select:focus,
+.wp-block-post-comments-form :is(input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]), textarea):focus {
+	border-color: var(--wp--preset--color--primary);
+	outline: 2px solid var(--wp--preset--color--primary);
+	outline-offset: 0;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	accent-color: var(--wp--preset--color--primary);
 }
