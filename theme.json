@@ -110,6 +110,9 @@
 					}
 				}
 			},
+			"core/comments-title": {
+				"typography": { "fontSize": "var:preset|font-size|large" }
+			},
 			"core/comment-author-name": {
 				"typography": { "fontWeight": "700" },
 				"elements": {
