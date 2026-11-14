@@ -77,3 +77,37 @@ jobs:
 
       - name: Check the theme renders
         run: tests/run.sh "$RUNNER_TEMP/site"
+
+  test-data:
+    name: Theme Test Data, WordPress ${{ matrix.wp }} (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - wp: latest
+            php: "8.4"
+          - wp: "6.6"
+            php: "7.4"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          extensions: pdo_sqlite, sqlite3
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress
+
+      - name: Set up WordPress
+        run: WP_VERSION=${{ matrix.wp }} tests/setup.sh "$RUNNER_TEMP/site"
+
+      - name: Import the Theme Test Data
+        run: tests/import-test-data.sh "$RUNNER_TEMP/site"
+
+      - name: Check every page renders
+        run: tests/crawl.sh "$RUNNER_TEMP/site"

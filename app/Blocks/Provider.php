@@ -14,7 +14,8 @@ namespace Prologue\Blocks;
 use Backdrop\Core\ServiceProvider;
 
 /**
- * Binds and boots the block components: block styles and sticky posts.
+ * Binds and boots the block components: block styles, sticky posts and
+ * page links.
  */
 class Provider extends ServiceProvider {
 
@@ -25,6 +26,7 @@ class Provider extends ServiceProvider {
 
 		$this->app->singleton( BlockStyles::class );
 		$this->app->singleton( StickyPosts::class );
+		$this->app->singleton( PageLinks::class );
 	}
 
 	/**
@@ -34,5 +36,6 @@ class Provider extends ServiceProvider {
 
 		$this->app->resolve( BlockStyles::class )->boot();
 		$this->app->resolve( StickyPosts::class )->boot();
+		$this->app->resolve( PageLinks::class )->boot();
 	}
 }

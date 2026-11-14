@@ -13,9 +13,11 @@
 
 <!-- wp:comment-template -->
 <!-- wp:group {"style":{"spacing":{"padding":{"bottom":"var:preset|spacing|40"}}},"layout":{"type":"default"}} -->
-<div class="wp-block-group" style="padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:comment-author-name /-->
+<div class="wp-block-group" style="padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap"}} -->
+<div class="wp-block-group"><!-- wp:comment-author-name /-->
 
-<!-- wp:comment-date /-->
+<!-- wp:comment-date /--></div>
+<!-- /wp:group -->
 
 <!-- wp:comment-content /-->
 
