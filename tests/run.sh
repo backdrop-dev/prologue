@@ -59,6 +59,20 @@ expect home 'wp-block-post-template' 'home: posts pattern'
 expect home 'Test Post' 'home: lists the test post'
 expect home '--wp--preset--color--primary: #2453b8' 'home: theme.json palette'
 
+# Sticky posts.
+if grep -qE '<li class="wp-block-post [^"]*\bsticky\b' "$OUT/home.html"; then
+	pass 'home: sticky post has the sticky class'
+else
+	fail 'home: sticky post has the sticky class'
+fi
+expect home '<p class="prologue-sticky-label">Featured</p>' 'home: sticky post has the Featured label'
+expect home 'prologue-core-post-template' 'home: post template stylesheet loads'
+if [ "$(grep -o 'Featured Post\|Test Post' "$OUT/home.html" | head -n 1)" = 'Featured Post' ]; then
+	pass 'home: sticky post is listed first'
+else
+	fail 'home: sticky post is listed first'
+fi
+
 fetch single /test-post/ 200
 expect single 'wp-block-post-title' 'single: post title'
 expect single 'Post body.' 'single: post content'
@@ -81,6 +95,19 @@ fi
 fetch archive /category/uncategorized/ 200
 expect archive 'wp-block-query-title' 'archive: archive title'
 expect archive 'Test Post' 'archive: lists the test post'
+
+if grep -qF '<p class="prologue-sticky-label">' "$OUT/archive.html"; then
+	fail 'archive: no Featured label outside the blog'
+else
+	pass 'archive: no Featured label outside the blog'
+fi
+
+fetch sticky /featured-post/ 200
+if grep -qF '<p class="prologue-sticky-label">' "$OUT/sticky.html"; then
+	fail 'single: no Featured label on the sticky post itself'
+else
+	pass 'single: no Featured label on the sticky post itself'
+fi
 
 fetch search '/?s=Test' 200
 expect search 'wp-block-search' 'search: search form pattern'
