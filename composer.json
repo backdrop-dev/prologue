@@ -2,7 +2,7 @@
 	"name": "backdrop-dev/prologue",
 	"description": "A clean block starter theme for WordPress, built on Backdrop 2.",
 	"type": "wordpress-theme",
-	"keywords": [ "wordpress", "block-theme", "starter-theme", "backdrop" ],
+	"keywords": [ "block-theme", "starter-theme", "backdrop" ],
 	"homepage": "https://github.com/backdrop-dev/prologue",
 	"license": "GPL-3.0-or-later",
 	"authors": [

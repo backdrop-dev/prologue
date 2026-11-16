@@ -17,29 +17,57 @@ Prologue gives you a working block theme to start from: `theme.json`, templates,
 3. Run `composer install` in the theme folder.
 4. Activate the theme under **Appearance → Themes**.
 
-If you activate the theme before running `composer install`, it shows a notice in the admin instead of loading its PHP.
+If you activate the theme before running `composer install`, it shows a dismissible notice in the admin instead of loading its PHP.
 
 ## Renaming
 
-Replace these names throughout the theme, matching case:
+`bin/rename.php` replaces Prologue's name, slug, prefixes, namespace and author throughout the theme, including its tests:
 
-| Find | Replace with | Where |
-|---|---|---|
-| `Prologue` | Your theme's name | `style.css` (`Theme Name`), `README.md`, pattern category label |
-| `Prologue\` | Your PHP namespace | `functions.php`, `app/`, `composer.json` (`autoload`) |
-| `prologue/` | Your prefix | pattern slugs in `patterns/` and `templates/`, hooks such as `prologue/bootstrap` |
-| `'prologue'` | Your text domain | translation functions in `app/` and `patterns/`, `style.css` (`Text Domain`) |
-| `prologue-` | Your prefix | stylesheet handles in `app/Assets/Assets.php` |
-| `backdrop-dev/prologue` | Your package name | `composer.json` |
+```bash
+php bin/rename.php "Harbor Light" \
+	--author="Your Name" \
+	--author-uri=https://example.com \
+	--theme-uri=https://example.com/harbor-light \
+	--contributor=your-wordpress-org-username \
+	--description="A calm block theme for writers."
+composer dump-autoload
+```
 
-Then update the author, URIs and version in `style.css`, and run `composer dump-autoload`.
+The slug (`harbor-light`, used as the folder name, text domain and prefix), the namespace (`HarborLight`) and the Composer package name are worked out from the name; set them with `--slug`, `--namespace` and `--package`. Leave out `--theme-uri` to drop the Theme URI. The script refuses names WordPress.org doesn't allow, such as ones containing "Theme" or "WordPress".
+
+Then rename the theme's folder to the slug, replace `screenshot.png`, and review `readme.txt`.
+
+## Publishing on WordPress.org
+
+Prologue itself isn't submitted to the theme directory: its name is already taken there. A theme made from it is built to pass the [theme review requirements](https://make.wordpress.org/themes/handbook/review/required/):
+
+- `readme.txt` in the directory's format, with a Copyright section and a Resources section that credits the bundled Backdrop packages and Composer autoloader. Add any fonts or images you bundle.
+- A 1200×900 `screenshot.png` of the theme's own patterns. Replace it with one of your theme.
+- No plugin-territory features, nothing loaded from other sites, every string translatable, and every function, hook, handle and class prefixed with the slug.
+
+Build the zip to upload with:
+
+```bash
+php bin/package.php
+```
+
+It writes `dist/{slug}-{version}.zip`, with the Composer dependencies installed (reviewers and users won't run Composer) and without development files: `tests/`, `bin/`, `README.md`, the Composer files and anything hidden. It stops if the zip would contain a file WordPress.org doesn't allow.
+
+To run WordPress.org's [Theme Check](https://github.com/WordPress/theme-check) against that zip on a test site:
+
+```bash
+tests/setup.sh /tmp/theme-site
+tests/check-release.sh /tmp/theme-site
+```
+
+Before you submit, also check that the name isn't already used in the theme directory, and that the version, changelog and "Tested up to" are current in both `style.css` and `readme.txt`.
 
 ## What's Inside
 
 ```
 app/                  PHP, organized as Backdrop service providers
   Assets/             Loads the global stylesheet and per-block stylesheets
-  Blocks/             Block styles, sticky posts and page links for split posts
+  Blocks/             Block styles, sticky posts, author comments, page links
   Patterns/           Registers pattern categories
 parts/                Header and footer template parts
 patterns/             Block patterns (registered automatically by WordPress)
@@ -49,6 +77,10 @@ styles/               Style variations
 templates/            Block templates
 theme.json            Colors, typography, spacing and layout
 functions.php         Boots the Backdrop application
+readme.txt            Readme for WordPress.org, with copyright and resources
+screenshot.png        1200×900 screenshot for the Themes screen
+bin/                  rename.php and package.php (left out of the zip)
+tests/                Site tests, Theme Test Data crawl, Theme Check
 ```
 
 ### Block styles
@@ -104,7 +136,7 @@ tests/crawl.sh /tmp/prologue-site
 
 The import adds about 120 posts and 24 pages full of edge cases: long titles and words, nested comments, split and password-protected posts, classic and block content. The crawl requests every post, page and archive (about 340 pages) and checks each returns the right status with its header and footer, no unrendered blocks and no PHP errors.
 
-All of these run on every pull request, along with a PHP syntax check on PHP 7.4 to 8.5.
+All of these run on every pull request, along with a PHP syntax check on PHP 7.4 to 8.5. CI also builds the release zip and runs Theme Check against it, and renames a copy of Prologue with `bin/rename.php` and runs every check on that copy, so a theme made from Prologue keeps passing.
 
 ## License
 
