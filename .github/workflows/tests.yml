@@ -111,3 +111,76 @@ jobs:
 
       - name: Check every page renders
         run: tests/crawl.sh "$RUNNER_TEMP/site"
+
+  release:
+    name: Release zip and Theme Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          extensions: pdo_sqlite, sqlite3, zip
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress
+
+      - name: Set up WordPress
+        run: tests/setup.sh "$RUNNER_TEMP/site"
+
+      - name: Build the zip and run Theme Check
+        run: tests/check-release.sh "$RUNNER_TEMP/site"
+
+      - name: Check the zip renders
+        run: tests/run.sh "$RUNNER_TEMP/site"
+
+  clone:
+    name: Renamed clone passes review checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          extensions: pdo_sqlite, sqlite3, zip
+          tools: composer
+
+      - name: Rename Prologue to Harbor Light
+        run: >
+          php bin/rename.php "Harbor Light"
+          --author="Test Author"
+          --author-uri=https://example.com
+          --theme-uri=https://example.com/harbor-light
+          --contributor=testauthor
+          --description="A calm block theme for writers."
+
+      - name: Check nothing still says Prologue
+        run: |
+          if grep -rni prologue --exclude-dir=.git --exclude-dir=.github --exclude-dir=vendor --exclude-dir=bin --exclude=composer.lock .; then
+            echo "Found Prologue after renaming." >&2
+            exit 1
+          fi
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress
+
+      - name: Set up WordPress
+        run: tests/setup.sh "$RUNNER_TEMP/site"
+
+      - name: Build the zip and run Theme Check
+        run: tests/check-release.sh "$RUNNER_TEMP/site"
+
+      - name: Check the zip renders
+        run: tests/run.sh "$RUNNER_TEMP/site"
+
+      - name: Import the Theme Test Data and crawl every page
+        run: |
+          tests/import-test-data.sh "$RUNNER_TEMP/site"
+          tests/crawl.sh "$RUNNER_TEMP/site"

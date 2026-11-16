@@ -25,7 +25,7 @@ if ( ! file_exists( get_parent_theme_file_path( 'vendor/autoload.php' ) ) ) {
 
 	add_action( 'admin_notices', function () {
 		printf(
-			'<div class="notice notice-error"><p>%s</p></div>',
+			'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
 			esc_html__( 'Prologue needs its dependencies. Run `composer install` in the theme folder.', 'prologue' )
 		);
 	} );
