@@ -1,4 +1,10 @@
 <?php
+
+// This script is for the command line only: running it from a browser
+// must not install dependencies, build a zip or rewrite theme files.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
 /**
  * Renames Prologue to your own theme.
  *
@@ -102,6 +108,12 @@ if ( isset( $args['contributor'] ) ) {
 
 // Files to change: text files, outside dependencies, build output and this folder.
 $skip_dirs  = [ '.git', 'bin', 'dist', 'node_modules', 'vendor' ];
+// `bin/` is skipped by the main pass on purpose: renaming the tool
+// scripts' own code (their slug checks, usage text and messages)
+// would break them for a second rename. They are development tools,
+// left out of the release zip, not theme code. Only their `@package`
+// line is updated, in the pass below, so the renamed theme's files
+// do not still claim to be Prologue.
 $skip_files = [ 'LICENSE', 'composer.lock' ];
 $extensions = '/\.(php|html|json|css|js|md|txt|sh|yml|yaml|xml|pot)$/';
 $changed    = 0;
@@ -148,6 +160,24 @@ foreach ( $files as $file ) {
 
 	if ( $content !== $original ) {
 		file_put_contents( $path, $content );
+		$changed++;
+	}
+}
+
+// Only the `@package` line in the tool scripts: the renamed theme's
+// own files should not still claim `@package Prologue`.
+foreach ( [ 'bin/rename.php', 'bin/package.php' ] as $tool ) {
+	$tool_path = "{$root}/{$tool}";
+
+	if ( ! is_file( $tool_path ) ) {
+		continue;
+	}
+
+	$tool_content = (string) file_get_contents( $tool_path );
+	$tool_content = str_replace( '@package Prologue', "@package {$namespace}", $tool_content );
+
+	if ( $tool_content !== (string) file_get_contents( $tool_path ) ) {
+		file_put_contents( $tool_path, $tool_content );
 		$changed++;
 	}
 }

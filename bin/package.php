@@ -1,4 +1,10 @@
 <?php
+
+// This script is for the command line only: running it from a browser
+// must not install dependencies, build a zip or rewrite theme files.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
 /**
  * Builds the theme's release zip, ready to upload to a site or submit to the
  * WordPress.org theme directory.
@@ -73,6 +79,20 @@ if ( ! preg_match( '/^[a-z0-9-]+$/', $slug ) || '' === $version ) {
 	package_fail( 'style.css needs a lowercase Text Domain (the theme slug) and a Version.' );
 }
 
+// The version in style.css must match readme.txt's Stable tag, or the
+// zip and the directory listing would disagree about the release.
+$readme      = (string) file_get_contents( "{$root}/readme.txt" );
+$stable_tag  = preg_match( '/^Stable tag:\s*(.+)$/mi', $readme, $stable_match ) ? trim( $stable_match[1] ) : '';
+$tested_up_to = preg_match( '/^Tested up to:\s*(.+)$/mi', $readme, $tested_match ) ? trim( $tested_match[1] ) : '';
+
+if ( '' !== $stable_tag && $stable_tag !== $version ) {
+	package_fail( "Version mismatch: style.css says {$version} but readme.txt Stable tag says {$stable_tag}." );
+}
+
+if ( '' !== $tested_up_to ) {
+	fwrite( STDERR, "Note: readme.txt says Tested up to {$tested_up_to}; check it is still current before submitting.\n" );
+}
+
 // Development files and folders, relative to the theme root.
 $exclude = [
 	'bin',
@@ -81,15 +101,20 @@ $exclude = [
 	'tests',
 	'vendor',
 	'README.md',
+	'CHANGELOG.md',
+	'CONTRIBUTING.md',
+	'phpunit.xml',
+	'phpcs.xml',
+	'phpstan.neon',
 	'composer.json',
 	'composer.lock',
 ];
 
-$build = sys_get_temp_dir() . '/theme-package-' . getmypid();
+$build = sys_get_temp_dir() . '/theme-package-' . getmypid() . '-' . bin2hex( random_bytes( 6 ) );
 $stage = "{$build}/{$slug}";
 
 package_remove( $build );
-mkdir( $stage, 0777, true );
+mkdir( $stage, 0755, true );
 
 // Copy the theme, skipping development and hidden files.
 $files = new RecursiveIteratorIterator(
@@ -108,7 +133,7 @@ foreach ( $files as $file ) {
 	$target = $stage . substr( $file->getPathname(), strlen( $root ) );
 
 	if ( $file->isDir() ) {
-		@mkdir( $target, 0777, true );
+		@mkdir( $target, 0755, true );
 	} else {
 		copy( $file->getPathname(), $target );
 	}
@@ -126,6 +151,7 @@ $command = sprintf(
 exec( $command, $composer_output, $status );
 
 if ( 0 !== $status ) {
+	package_remove( $build );
 	package_fail( "composer install failed:\n" . implode( "\n", $composer_output ) );
 }
 
@@ -188,13 +214,15 @@ foreach ( [ 'style.css', 'readme.txt', 'theme.json', 'templates/index.html', 've
 	}
 }
 
-if ( ! glob( "{$stage}/screenshot.{png,jpg}", GLOB_BRACE ) ) {
+// GLOB_BRACE is not defined on every PHP build, so check each
+// extension with a plain glob instead.
+if ( ! glob( "{$stage}/screenshot.png" ) && ! glob( "{$stage}/screenshot.jpg" ) ) {
 	package_fail( 'The theme is missing screenshot.png.' );
 }
 
 // Zip it, with the slug as the top-level folder.
 if ( ! is_dir( $output ) ) {
-	mkdir( $output, 0777, true );
+	mkdir( $output, 0755, true );
 }
 
 $zip_file = rtrim( $output, '/' ) . "/{$slug}-{$version}.zip";
