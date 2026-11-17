@@ -24,6 +24,29 @@
 		"optimize-autoloader": true,
 		"platform": {
 			"php": "7.4"
+		},
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
 		}
+	},
+	"require-dev": {
+		"squizlabs/php_codesniffer": "^3.10",
+		"wp-coding-standards/wpcs": "^3.1",
+		"phpstan/phpstan": "^1.12",
+		"phpunit/phpunit": "^9.6"
+	},
+	"scripts": {
+		"lint": "find app functions.php patterns bin tests -name '*.php' -not -path '*/vendor/*' -exec php -l {} \\;",
+		"phpcs": "phpcs --standard=phpcs.xml",
+		"phpstan": "phpstan analyse --memory-limit=512M",
+		"phpunit": "phpunit --testsuite=unit",
+		"validate-theme-json": "php tests/validate-theme-json.php",
+		"test": [
+			"@lint",
+			"@validate-theme-json",
+			"@phpcs",
+			"@phpstan"
+		]
 	}
 }

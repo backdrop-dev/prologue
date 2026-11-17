@@ -23,12 +23,25 @@ namespace Prologue;
 
 if ( ! file_exists( get_parent_theme_file_path( 'vendor/autoload.php' ) ) ) {
 
+	// An admin notice alone is not enough: the front end would render
+	// unstyled with no clue why. Show the same message in both places
+	// (the front-end one only when WP_DEBUG is on, so visitors on a
+	// live site do not see a developer message).
 	add_action( 'admin_notices', function () {
 		printf(
 			'<div class="notice notice-error is-dismissible"><p>%s</p></div>',
 			esc_html__( 'Prologue needs its dependencies. Run `composer install` in the theme folder.', 'prologue' )
 		);
 	} );
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		add_action( 'wp_head', function () {
+			printf(
+				'<!-- %s -->',
+				esc_html__( 'Prologue needs its dependencies. Run `composer install` in the theme folder.', 'prologue' )
+			);
+		} );
+	}
 
 	return;
 }

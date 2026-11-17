@@ -19,9 +19,9 @@
 	printf(
 		/* translators: %s: WordPress link. */
 		esc_html__( 'Built with %s and Prologue.', 'prologue' ),
-		'<a href="' . esc_url( __( 'https://wordpress.org', 'prologue' ) ) . '">WordPress</a>'
+		'<a href="' . esc_url( 'https://wordpress.org' ) . '">WordPress</a>'
 	);
-?></p>
+	?></p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->

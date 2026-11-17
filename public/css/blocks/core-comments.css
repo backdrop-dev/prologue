@@ -5,6 +5,7 @@
 
 /* Separate the comments from the post. */
 .wp-block-comments {
+	border-top: 1px solid var(--wp--preset--color--subtle);
 	border-top: 1px solid color-mix(in srgb, var(--wp--preset--color--subtle) 30%, transparent);
 	margin-top: var(--wp--preset--spacing--60);
 	padding-top: var(--wp--preset--spacing--50);
@@ -16,6 +17,7 @@
 
 /* Each comment: avatar beside the name, date, text and reply link. */
 .wp-block-comment-template .prologue-comment {
+	border-bottom: 1px solid var(--wp--preset--color--subtle);
 	border-bottom: 1px solid color-mix(in srgb, var(--wp--preset--color--subtle) 20%, transparent);
 	gap: 1rem;
 	padding-bottom: var(--wp--preset--spacing--40);
@@ -63,6 +65,7 @@
  * by `app/Blocks/AuthorComments.php`.
  */
 .wp-block-comment-template .bypostauthor > .prologue-comment {
+	background-color: var(--wp--preset--color--muted);
 	background-color: color-mix(in srgb, var(--wp--preset--color--primary) 8%, var(--wp--preset--color--base));
 	border-bottom-color: transparent;
 	border-left: 4px solid var(--wp--preset--color--primary);
@@ -94,6 +97,7 @@
 
 /* Replies are indented with a line, less so on small screens. */
 .wp-block-comment-template li > ol {
+	border-left: 2px solid var(--wp--preset--color--subtle);
 	border-left: 2px solid color-mix(in srgb, var(--wp--preset--color--subtle) 20%, transparent);
 	margin-left: 1.25rem;
 	padding-left: 1rem;

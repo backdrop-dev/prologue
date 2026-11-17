@@ -1,0 +1,18 @@
+parameters:
+	level: 5
+	paths:
+		- app
+		- functions.php
+		- patterns
+		- bin
+		- tests
+	ignoreErrors:
+		# WordPress core functions and classes are not known to PHPStan
+		# without stubs; these are all provided by WordPress at runtime.
+		- '#Function .* not found#'
+		- '#Access to property .* on an unknown class#'
+		- '#Parameter .* has invalid type WP_.*#'
+		- '#Call to method .* on an unknown class#'
+		- '#Class .* not found#'
+		- '#Constant .* not found#'
+		- '#Instantiated class .* not found#'
