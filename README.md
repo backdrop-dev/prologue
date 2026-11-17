@@ -44,6 +44,7 @@ Prologue itself isn't submitted to the theme directory: its name is already take
 - `readme.txt` in the directory's format, with a Copyright section and a Resources section that credits the bundled Backdrop packages and Composer autoloader. Add any fonts or images you bundle.
 - A 1200×900 `screenshot.png` of the theme's own patterns. Replace it with one of your theme.
 - No plugin-territory features, nothing loaded from other sites, every string translatable, and every function, hook, handle and class prefixed with the slug.
+- One known WordPress limitation: the template-part and custom-template titles in `theme.json` (`Header`, `Footer`, `Page (No Title)`) have no text-domain mechanism, so they are not translatable. Everything else is.
 
 Build the zip to upload with:
 
@@ -71,10 +72,13 @@ app/                  PHP, organized as Backdrop service providers
   Patterns/           Registers pattern categories
 parts/                Header and footer template parts
 patterns/             Block patterns (registered automatically by WordPress)
-public/css/style.css  Global CSS that theme.json can't express
+public/css/style.css  Global CSS that theme.json can't express (front end only)
+public/css/editor.css  The editor-safe subset of style.css; the front-end
+                      layout rules (footer pinned to the bottom, main
+                      padding) are not loaded in the editor
 public/css/blocks/    CSS for one block, loaded only when the block is used
 styles/               Style variations
-templates/            Block templates
+templates/            Block templates, including front-page.html and home.html
 theme.json            Colors, typography, spacing and layout
 functions.php         Boots the Backdrop application
 readme.txt            Readme for WordPress.org, with copyright and resources
@@ -137,6 +141,23 @@ tests/crawl.sh /tmp/prologue-site
 The import adds about 120 posts and 24 pages full of edge cases: long titles and words, nested comments, split and password-protected posts, classic and block content. The crawl requests every post, page and archive (about 340 pages) and checks each returns the right status with its header and footer, no unrendered blocks and no PHP errors.
 
 All of these run on every pull request, along with a PHP syntax check on PHP 7.4 to 8.5. CI also builds the release zip and runs Theme Check against it, and renames a copy of Prologue with `bin/rename.php` and runs every check on that copy, so a theme made from Prologue keeps passing.
+
+Static analysis runs in CI too, and locally with Composer:
+
+```bash
+composer phpcs    # WordPress Coding Standards (phpcs.xml)
+composer phpstan  # PHPStan, level 5
+composer phpunit  # Unit tests in tests/Unit/
+composer validate-theme-json  # theme.json / styles/*.json schema checks
+```
+
+`bin/package.php` fails the build if the version in `style.css` does not match the Stable tag in `readme.txt`, and warns if `Tested up to` looks stale.
+
+Translations live in the `prologue` text domain, loaded on `after_setup_theme`. Regenerate the template after changing a translatable string:
+
+```bash
+wp i18n make-pot . languages/prologue.pot
+```
 
 ## License
 

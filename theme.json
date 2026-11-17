@@ -21,7 +21,16 @@
 			"wideSize": "1200px"
 		},
 		"spacing": {
-			"units": [ "px", "em", "rem", "%", "vh", "vw" ]
+			"units": [ "px", "em", "rem", "%", "vh", "vw" ],
+			"spacingSizes": [
+				{ "slug": "20", "name": "Small", "size": "0.5rem" },
+				{ "slug": "30", "name": "Medium", "size": "0.75rem" },
+				{ "slug": "40", "name": "Large", "size": "1rem" },
+				{ "slug": "50", "name": "Extra large", "size": "1.5rem" },
+				{ "slug": "60", "name": "Huge", "size": "2.25rem" },
+				{ "slug": "70", "name": "Gigantic", "size": "3.38rem" },
+				{ "slug": "80", "name": "Colossal", "size": "5.06rem" }
+			]
 		},
 		"typography": {
 			"defaultFontSizes": false,
@@ -68,10 +77,7 @@
 		},
 		"elements": {
 			"link": {
-				"color": { "text": "var:preset|color|primary" },
-				":hover": {
-					"typography": { "textDecoration": "none" }
-				}
+				"color": { "text": "var:preset|color|primary" }
 			},
 			"heading": {
 				"typography": { "fontWeight": "700", "lineHeight": "1.2" }

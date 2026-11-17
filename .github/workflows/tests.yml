@@ -19,9 +19,9 @@ jobs:
         php: [ "7.4", "8.0", "8.1", "8.2", "8.3", "8.4", "8.5" ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
@@ -56,13 +56,15 @@ jobs:
             php: "8.4"
           - wp: latest
             php: "7.4"
+          - wp: "7.1"
+            php: "8.5"
           - wp: "6.6"
             php: "7.4"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
@@ -87,13 +89,15 @@ jobs:
         include:
           - wp: latest
             php: "8.4"
+          - wp: "7.1"
+            php: "8.5"
           - wp: "6.6"
             php: "7.4"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
@@ -112,14 +116,45 @@ jobs:
       - name: Check every page renders
         run: tests/crawl.sh "$RUNNER_TEMP/site"
 
+  static-analysis:
+    name: PHPCS, PHPStan, PHPUnit and theme.json schema
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: "8.4"
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Validate theme.json against the schema
+        run: composer validate-theme-json
+
+      - name: Check coding standards
+        run: composer phpcs
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Run unit tests
+        run: composer phpunit
+
+      - name: Check for outdated dependencies
+        run: composer outdated --direct --strict
+        continue-on-error: true
+
   release:
     name: Release zip and Theme Check
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: "8.4"
           coverage: none
@@ -143,9 +178,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
         with:
           php-version: "8.4"
           coverage: none

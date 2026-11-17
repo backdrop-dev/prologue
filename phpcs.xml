@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<ruleset name="Prologue">
+	<description>WordPress Coding Standards for the Prologue starter theme.</description>
+	<config name="installed_paths" value="vendor/wp-coding-standards/wpcs,vendor/phpcsstandards/phpcsutils,vendor/phpcsstandards/phpcsextra" />
+	<config name="php_version" value="70400" />
+	<!-- Exclusions for the theme's established conventions: `#` section
+	     comments, PSR-4 PascalCase class files, slash hook names
+	     (`prologue/...`, Backdrop convention), PHP embedded in
+	     pattern HTML, short array syntax (PHP 7.4+), and multi-line
+	     function calls with several arguments on one line. These are
+	     deliberate, not oversights. -->
+	<rule ref="WordPress">
+		<exclude name="Squiz.Commenting.InlineComment.WrongStyle" />
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase" />
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+		<exclude name="WordPress.NamingConventions.ValidHookName.UseUnderscores" />
+		<exclude name="Squiz.PHP.EmbeddedPhp.ContentBeforeOpen" />
+		<exclude name="Squiz.PHP.EmbeddedPhp.ContentAfterEnd" />
+		<exclude name="Universal.Arrays.DisallowShortArraySyntax" />
+		<exclude name="PEAR.Functions.FunctionCallSignature.ContentAfterOpenBracket" />
+		<exclude name="PEAR.Functions.FunctionCallSignature.MultipleArguments" />
+		<exclude name="PEAR.Functions.FunctionCallSignature.CloseBracketLine" />
+	</rule>
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="prologue" />
+			</property>
+		</properties>
+	</rule>
+	<file>app</file>
+	<file>functions.php</file>
+	<file>patterns</file>
+	<!-- bin/ and tests/ are CLI scripts, not shipped theme code, so they
+	     are checked by `php -l` in CI instead of PHPCS. -->
+	<exclude-pattern>*/vendor/*</exclude-pattern>
+	<exclude-pattern>*/node_modules/*</exclude-pattern>
+	<arg name="colors" />
+</ruleset>

@@ -25,7 +25,30 @@ class Assets implements Bootable {
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueueStyles' ] );
 		add_action( 'after_setup_theme', [ $this, 'addEditorStyles' ] );
+		add_action( 'after_setup_theme', [ $this, 'loadTextDomain' ] );
 		add_action( 'init', [ $this, 'enqueueBlockStyles' ] );
+	}
+
+	/**
+	 * Returns the theme version, resolved once per request.
+	 */
+	private function version(): string {
+		static $version = null;
+
+		if ( null === $version ) {
+			$version = (string) wp_get_theme( get_template() )->get( 'Version' );
+		}
+
+		return $version;
+	}
+
+	/**
+	 * Loads the theme text domain. WordPress loads it automatically for
+	 * most themes, but a renamed theme (or an older install) should not
+	 * silently lose its translations.
+	 */
+	public function loadTextDomain(): void {
+		load_theme_textdomain( 'prologue', get_parent_theme_file_path( 'languages' ) );
 	}
 
 	/**
@@ -37,16 +60,21 @@ class Assets implements Bootable {
 			'prologue-style',
 			get_parent_theme_file_uri( 'public/css/style.css' ),
 			[],
-			wp_get_theme( get_template() )->get( 'Version' )
+			$this->version()
 		);
 	}
 
 	/**
-	 * Loads the same stylesheet in the editor.
+	 * Loads the editor stylesheet in the editor.
+	 *
+	 * This is `public/css/editor.css`, not `public/css/style.css`: the
+	 * front-end layout rules in `style.css` (the flex column that pins
+	 * the footer to the bottom, and the `main` padding) would leak into
+	 * the editor canvas if that file were loaded there.
 	 */
 	public function addEditorStyles(): void {
 
-		add_editor_style( 'public/css/style.css' );
+		add_editor_style( 'public/css/editor.css' );
 	}
 
 	/**
@@ -58,7 +86,8 @@ class Assets implements Bootable {
 	 */
 	public function enqueueBlockStyles(): void {
 
-		$files = glob( get_parent_theme_file_path( 'public/css/blocks/*.css' ) );
+		$version = $this->version();
+		$files   = glob( get_parent_theme_file_path( 'public/css/blocks/*.css' ) );
 
 		foreach ( $files ? $files : [] as $file ) {
 
@@ -73,7 +102,7 @@ class Assets implements Bootable {
 				'handle' => "prologue-{$name}",
 				'src'    => get_parent_theme_file_uri( "public/css/blocks/{$name}.css" ),
 				'path'   => $file,
-				'ver'    => wp_get_theme( get_template() )->get( 'Version' ),
+				'ver'    => $version,
 			] );
 		}
 	}

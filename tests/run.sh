@@ -54,6 +54,7 @@ expect home 'prologue-style-css' 'home: theme stylesheet is loaded'
 expect home '<header class="wp-block-template-part">' 'home: header template part'
 expect home '<footer class="wp-block-template-part">' 'home: footer template part'
 expect home 'wp-block-site-title' 'home: site title'
+expect home 'skip-link' 'home: skip link is present'
 if tr '\n' ' ' < "$OUT/home.html" | grep -qE '<header class="wp-block-template-part">\s*<div class="wp-block-group alignfull has-muted-background-color has-background'; then
 	pass 'home: header has the muted background'
 else

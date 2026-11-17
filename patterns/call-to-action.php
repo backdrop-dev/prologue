@@ -6,6 +6,9 @@
  * Keywords: call to action, card, button
  * Inserter: yes
  *
+ * The button links to https://example.com as a placeholder:
+ * replace it with your own URL.
+ *
  * @package Prologue
  */
 
@@ -20,8 +23,8 @@
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
-<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-pill"} -->
-<div class="wp-block-button is-style-pill"><a class="wp-block-button__link wp-element-button"><?php esc_html_e( 'Contact us', 'prologue' ); ?></a></div>
+<div class="wp-block-buttons"><!-- wp:button {"url":"https://example.com","className":"is-style-pill"} -->
+<div class="wp-block-button is-style-pill"><a class="wp-block-button__link wp-element-button" href="https://example.com"><?php esc_html_e( 'Contact us', 'prologue' ); ?></a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:group -->
