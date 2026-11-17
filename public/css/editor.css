@@ -1,0 +1,154 @@
+/*
+ * Editor styles: the rules from public/css/style.css that are safe in the
+ * editor canvas. The front-end layout rules are intentionally left out:
+ * `.wp-site-blocks` as a flex column (which pins the footer to the bottom)
+ * and the `main` padding belong on the front end only, and loading them
+ * here would re-flow the editor.
+ */
+
+/* A visible focus outline for keyboard users. */
+:where(a, button, input, select, textarea, .wp-element-button):focus-visible {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+/* Long words and URLs wrap instead of widening the page. */
+.wp-site-blocks {
+	overflow-wrap: break-word;
+}
+
+/*
+ * Quotes from the classic editor and in comments, styled like the Quote
+ * block (see `public/css/blocks/core-quote.css`).
+ */
+:where(blockquote:not(.wp-block-quote):not(.wp-block-pullquote blockquote)) {
+	border-left: 4px solid var(--wp--preset--color--primary);
+	margin-left: 0;
+	margin-right: 0;
+	padding-left: var(--wp--preset--spacing--40);
+}
+
+/* Preformatted text keeps its line breaks and scrolls inside its box. */
+pre {
+	max-width: 100%;
+	overflow-x: auto;
+}
+
+/*
+ * Content from the classic editor: captions get a fixed width from an
+ * inline style, which mustn't be wider than the screen.
+ */
+.wp-caption {
+	max-width: 100%;
+}
+
+.wp-caption img {
+	height: auto;
+	max-width: 100%;
+}
+
+.wp-caption-text {
+	color: var(--wp--preset--color--subtle);
+	font-size: var(--wp--preset--font-size--small);
+	margin-top: 0.5em;
+}
+
+/*
+ * Images aligned in the classic editor. WordPress aligns blocks and
+ * captions through the layout, but only when they're direct children of
+ * the content. A classic image sits inside a paragraph, so it needs its
+ * own rules. Block images put the alignment on their figure, not the img,
+ * so these don't affect them.
+ */
+img.alignleft {
+	float: left;
+	margin: 0.25em 1.5em 1em 0;
+}
+
+img.alignright {
+	float: right;
+	margin: 0.25em 0 1em 1.5em;
+}
+
+img.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Floated images and captions take at most half the width, so text beside them stays readable on phones. */
+img:is(.alignleft, .alignright),
+.wp-caption:is(.alignleft, .alignright) {
+	height: auto;
+	max-width: 50%;
+}
+
+/* Floated images at the end of a post stay inside it. */
+.wp-block-post-content::after {
+	clear: both;
+	content: "";
+	display: table;
+}
+
+/*
+ * A Search block given a fixed width still fits on small screens. `:where()`
+ * keeps the content width from the layout for Search blocks that aren't
+ * floated.
+ */
+:where(.wp-block-search, .wp-block-search__inside-wrapper) {
+	max-width: 100%;
+}
+
+/* Links to the other pages of a post split with the Page Break block. */
+.prologue-page-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: var(--wp--preset--spacing--50);
+}
+
+.prologue-page-links__label {
+	font-weight: 700;
+}
+
+.prologue-page-links .post-page-numbers.current {
+	font-weight: 700;
+}
+
+/*
+ * Form fields: the comment form, search, the password form on protected
+ * posts, and forms from plugins. The comment form selector is needed to
+ * override WordPress's own comment form styles.
+ */
+input:is([type="text"], [type="email"], [type="url"], [type="password"], [type="search"], [type="number"], [type="tel"]),
+textarea,
+select,
+.wp-block-post-comments-form :is(input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]), textarea) {
+	background-color: var(--wp--preset--color--base);
+	border: 1px solid var(--wp--preset--color--subtle);
+	border-radius: 0.375rem;
+	box-sizing: border-box;
+	color: var(--wp--preset--color--contrast);
+	font: inherit;
+	max-width: 100%;
+	padding: 0.625rem 0.75rem;
+}
+
+input:is([type="text"], [type="email"], [type="url"], [type="password"], [type="search"], [type="number"], [type="tel"]):focus,
+textarea:focus,
+select:focus,
+.wp-block-post-comments-form :is(input:not([type="submit"]):not([type="checkbox"]):not([type="hidden"]), textarea):focus {
+	border-color: var(--wp--preset--color--primary);
+	outline: 2px solid var(--wp--preset--color--primary);
+	outline-offset: 0;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	accent-color: var(--wp--preset--color--primary);
+}
+
+/* Keep a post's date close to its title, in lists and on the post itself. */
+.wp-block-post-title + .wp-block-post-date {
+	margin-block-start: 0.125rem;
+}
