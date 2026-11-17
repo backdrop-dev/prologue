@@ -94,6 +94,6 @@ PHP
 
 # Copy the theme, without the parts a release leaves out.
 mkdir -p "$WP_DIR/wp-content/themes/prologue"
-tar -C "$THEME_DIR" --exclude=.git --exclude=.github --exclude=tests --exclude=node_modules -cf - . | tar -C "$WP_DIR/wp-content/themes/prologue" -xf -
+tar -C "$THEME_DIR" --exclude=.git --exclude=.github --exclude=tests --exclude=node_modules --exclude=dist -cf - . | tar -C "$WP_DIR/wp-content/themes/prologue" -xf -
 
 php "$THEME_DIR/tests/install.php" "$WP_DIR"

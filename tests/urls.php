@@ -1,4 +1,10 @@
 <?php
+
+// This script is for the command line only: running it from a browser
+// must not install dependencies, build a zip or rewrite theme files.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
 /**
  * Prints the paths to crawl on the test site, one per line.
  *

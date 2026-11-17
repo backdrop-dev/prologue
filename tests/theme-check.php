@@ -1,4 +1,10 @@
 <?php
+
+// This script is for the command line only: running it from a browser
+// must not install dependencies, build a zip or rewrite theme files.
+if ( 'cli' !== PHP_SAPI ) {
+	exit;
+}
 /**
  * Runs the Theme Check plugin's checks against an installed theme.
  *
